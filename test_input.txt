@@ -1,0 +1,5 @@
+if (a == "potato") {
+	printf("test for string literal: %s\n", (char)b);
+	/* test for comments!! //haha /* this shoudln't appear */ // yeah */
+	printf("i like trains\n")
+}
