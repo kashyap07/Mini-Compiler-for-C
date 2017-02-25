@@ -9,14 +9,9 @@
 	input: C code
 	output: tokens as tuples
 '''
-
-test = r'''if (a == "potato") {
-	printf("test for string literal: %s\n", (char)b);
-	/* test for comments!! //haha /* this shoudln't appear */ // yeah */
-	printf("i like trains\n")
-}'''
-
+import sys
 import re
+
 
 scanner = re.Scanner([
 	# comment
@@ -67,13 +62,17 @@ scanner = re.Scanner([
 ])
 
 
-
 if __name__ == '__main__':
-	tokens = scanner.scan(test)
+	li = []
+	#tokens = scanner.scan(test)
 
-	print('\ninput code: ', test, '\n')
+	with open('test_input.txt') as f:
+		test_input = f.readlines()
 
-	for i in tokens:
+	for line in range(0, len(test_input)):
+		#print(line, test_input[line])
+		li.extend(scanner.scan(test_input[line]))
+
+	for i in li:
 		for j in i:
 			print('<', j[1], ', ', j[0], '>', sep='')
-			#print(j)
