@@ -12,7 +12,6 @@
 import sys
 import re
 
-
 scanner = re.Scanner([
 	# comment
 	(r'//.*?(\r\n?|\n)|/\*.*?\*/', None),
@@ -30,6 +29,7 @@ scanner = re.Scanner([
 	#(r'\*?(\*\*)?[A-Za-z_][A-Za-z0-9_]*', lambda scanner, token: ('IDENTIFIER', token)),	
 	(r'[A-Za-z_][A-Za-z0-9_]*', lambda scanner, token: ('IDENTIFIER', token)),
 	(r'\"(\\.|[^\\"])*\"', lambda scanner, token: ('LITERAL', token[1:-1])),
+	#(r'(\"\\.|[^\\"]*\")', lambda scanner, token: ('LITERAL', token[1:-1])),
 	
 	# operators
 	(r'\.\.\.', lambda scanner, token: ('ELLIPSIS', token)),
@@ -64,15 +64,14 @@ scanner = re.Scanner([
 
 if __name__ == '__main__':
 	li = []
-	#tokens = scanner.scan(test)
-
+	
 	with open('test_input.txt') as f:
 		test_input = f.readlines()
 
 	for line in range(0, len(test_input)):
-		#print(line, test_input[line])
-		li.extend(scanner.scan(test_input[line]))
+		for thing in scanner.scan(test_input[line]):
+			for token in thing:
+				li.append(list(token) + [line])
 
 	for i in li:
-		for j in i:
-			print('<', j[1], ', ', j[0], '>', sep='')
+		print(i)
