@@ -1,7 +1,8 @@
 if (a == "potato") {
+	a = b;
+	b = c + 10;
 	int c = 3;
 	float d = 3.22;
-	printf("test for string literal: %s\n", (char)b);
 	/* test for comments!! //haha /* this shoudln't appear */ // yeah */
 	printf("i like trains\n")
 }
