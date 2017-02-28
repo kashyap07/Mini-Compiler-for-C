@@ -9,7 +9,6 @@
 	input: C code
 	output: tokens as tuples
 '''
-import sys
 import re
 
 scanner = re.Scanner([
@@ -23,15 +22,17 @@ scanner = re.Scanner([
 	(r'^-?[0-9]+$', lambda scanner, token: ('INT', token)),
 
 	# parentheses
-	(r'\(|\{', lambda scanner, token: ('OPEN_PAREN', token)),
-	(r'\)|\}', lambda scanner, token: ('CLOSE_PAREN', token)),
+	(r'\(', lambda scanner, token: ('OPEN_PAREN', token)),
+	(r'\)', lambda scanner, token: ('CLOSE_PAREN', token)),
+	(r'\{', lambda scanner, token: ('BLOCK_OPEN', token)),
+	(r'\}', lambda scanner, token: ('BLOCK_CLOSE', token)),
 
 	# string
 	#(r'\*?(\*\*)?[A-Za-z_][A-Za-z0-9_]*', lambda scanner, token: ('IDENTIFIER', token)),	
 	(r'[A-Za-z_][A-Za-z0-9_]*', lambda scanner, token: ('IDENTIFIER', token)),
 	(r'\"(\\.|[^\\"])*\"', lambda scanner, token: ('LITERAL', token[1:-1])),
-	#(r'(\"\\.|[^\\"]*\")', lambda scanner, token: ('LITERAL', token[1:-1])),
-	
+	# (r'(\"\\.|[^\\"]*\")', lambda scanner, token: ('LITERAL', token[1:-1])),
+
 	# operators
 	(r'\.\.\.', lambda scanner, token: ('ELLIPSIS', token)),
 	(r'\+=', lambda scanner, token: ('ADD_ASSIGN', token)),
@@ -65,7 +66,7 @@ scanner = re.Scanner([
 
 if __name__ == '__main__':
 	li = []
-	
+
 	with open('test_input.txt') as f:
 		test_input = f.readlines()
 
@@ -84,9 +85,27 @@ if __name__ == '__main__':
 			symbol_table[-1].append(token[1])
 			symbol_table[-1].append(token[0])
 
-	print('\n\n')
-	for k in symbol_table:
-		print(k)
 
+	'''
+	>>> text = "Hello, world. Regular expressions are not always the answer."
+	>>> words = text.partition("Regular expressions")
+	>>> words
+	('Hello, world. ', 'Regular expressions', ' are not always the answer.')
+	>>> words_before = words[0]
+	>>> words_before
+	'Hello, world. '
+	>>> separator = words[1]
+	>>> separator
+	'Regular expressions'
+	>>> words_after = words[2]
+	>>> words_after
+	' are not always the answer.'
+	'''
+
+	print('\nTOKENS:')
 	for i in li:
+		print(i)
+
+	print('\nSYMBOL TABLE:')
+	for i in symbol_table:
 		print(i)
