@@ -19,7 +19,8 @@ scanner = re.Scanner([
 	# keywords
 	(r'auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|return|short|signed|sizeof|static|struct|switch|switch|typedef|union|unsigned|void|volatile|while', lambda scanner, token: ('KEYWORD', token)),
 
-	(r'[0-9]+', lambda scanner, token: ('INT', token)),
+	(r'[-+]?\d*\.\d+|\d+', lambda scanner, token: ('FLOAT', token)),
+	(r'^-?[0-9]+$', lambda scanner, token: ('INT', token)),
 
 	# parentheses
 	(r'\(|\{', lambda scanner, token: ('OPEN_PAREN', token)),
@@ -68,10 +69,24 @@ if __name__ == '__main__':
 	with open('test_input.txt') as f:
 		test_input = f.readlines()
 
+	symbol_table = []
+	# TODO: include values as well
+
 	for line in range(0, len(test_input)):
 		for thing in scanner.scan(test_input[line]):
 			for token in thing:
 				li.append(list(token) + [line])
+
+	for token in li:
+		if token[0] == 'IDENTIFIER':
+			symbol_table.append(list())
+			symbol_table[-1].append(token[2])
+			symbol_table[-1].append(token[1])
+			symbol_table[-1].append(token[0])
+
+	print('\n\n')
+	for k in symbol_table:
+		print(k)
 
 	for i in li:
 		print(i)
