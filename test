@@ -1,7 +1,8 @@
-if (a == "potato") {
-	a = b;
-	b = c + 10;
+int a = 0;
+if (a == 500) {
 	int c = 3;
+	int b = c + 10;
+	a = b;
 	float d = 3.22;
 	/* test for comments!! //haha /* this shoudln't appear */ // yeah */
 	printf("i like trains\n")

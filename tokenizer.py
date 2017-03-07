@@ -8,6 +8,18 @@
 
 	input: C code
 	output: tokens as tuples
+
+
+
+
+
+
+
+
+
+	AAAAAAAAAAAAAAAAAAAAAAAAAAA
+	TUESDAY
+	W/ FIRST AND FOLLOW
 '''
 import re
 
@@ -72,6 +84,7 @@ if __name__ == '__main__':
 
 	symbol_table = []
 	token_pos = 0
+	sym_table_pos = 0
 	# TODO: include values as well
 
 	for line in range(0, len(test_input)):
@@ -84,26 +97,41 @@ if __name__ == '__main__':
 	# 2. Make sure there are single entries for idemntifiers in symbol table
 	for token in li:
 		token_pos += 1
-		if token[0] == 'IDENTIFIER' and li[token_pos - 1][1] != ('printf' or 'scanf'):
-			symbol_table.append(list())
+		if token[0] == 'IDENTIFIER' and (li[token_pos - 1][1] != ('rpintf' or 'scanf')) and li[token_pos - 2] != '=' and li[token_pos] != '==':
+			sym_table_pos += 1
 			d_type = li[token_pos - 2][1]
 			if d_type in data_type_list:
 				pass
 			else:
 				d_type = 'undefined'
 			if_eq = li[token_pos][1]		# check for assignment op
-			if if_eq == '=' or '==':
+			if if_eq == '=':
 				d_val = li[token_pos + 1][1]
 			else:
 				d_val = 'undefined'
+			symbol_table.append(list())
 			symbol_table[-1].append(token[2])
 			symbol_table[-1].append(token[1])
 			symbol_table[-1].append(d_type)
 			symbol_table[-1].append(d_val)
+			print(symbol_table)
+			for x in symbol_table:
+				if token[1] in x[1:-2]:
+					#del symbol_table[-1]
+					#print(symbol_table[-1])
+					index = symbol_table.index(x)
+					existent_d_type = symbol_table[index][2]
+					li_to_replace = []
+					li_to_replace.append(token[2])
+					li_to_replace.append(token[1])
+					li_to_replace.append(existent_d_type)
+					li_to_replace.append(d_val)
+					symbol_table[index] = li_to_replace
 
 	print('\nTOKENS:')
 	for i in li:
-		print(i)
+		#print(i)
+		pass
 
 	print('\nSYMBOL TABLE:')
 	for i in symbol_table:
