@@ -8,19 +8,8 @@
 
 	input: C code
 	output: tokens as tuples
-
-
-
-
-
-
-
-
-
-	AAAAAAAAAAAAAAAAAAAAAAAAAAA
-	TUESDAY
-	W/ FIRST AND FOLLOW
 '''
+
 import re
 
 scanner = re.Scanner([
@@ -79,7 +68,7 @@ if __name__ == '__main__':
 	data_type_list = ['int', 'float', 'double', 'long', 'char']
 	li = []
 
-	with open('test_input.txt') as f:
+	with open('test') as f:
 		test_input = f.readlines()
 
 	symbol_table = []
@@ -114,7 +103,7 @@ if __name__ == '__main__':
 			symbol_table[-1].append(token[1])
 			symbol_table[-1].append(d_type)
 			symbol_table[-1].append(d_val)
-			print(symbol_table)
+			#print(symbol_table)
 			for x in symbol_table:
 				if token[1] in x[1:-2]:
 					#del symbol_table[-1]
@@ -130,9 +119,9 @@ if __name__ == '__main__':
 
 	print('\nTOKENS:')
 	for i in li:
-		#print(i)
-		pass
-
-	print('\nSYMBOL TABLE:')
-	for i in symbol_table:
 		print(i)
+
+
+	#print('\nSYMBOL TABLE:')
+	#for i in symbol_table:
+	#	print(i)
