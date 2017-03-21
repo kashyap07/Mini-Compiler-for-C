@@ -1,6 +1,8 @@
 # mini compiler for c using python
 
+
 Note: tokenizer.py has been abandoned  
+Warning: very low quality code
 
 #### new version using ply(python lex and yacc)
 To use: ```pip3 install ply```
